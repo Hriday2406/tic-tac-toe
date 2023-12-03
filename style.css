@@ -179,6 +179,12 @@ footer {
 
 /*  */
 @media only screen and (max-width:600px){
+    body {
+        height: 100dvh;
+    }
+    header {
+        font-size: 4rem;
+    }
     .container{
         height: 300px;
         width: 300px;
