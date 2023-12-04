@@ -30,77 +30,63 @@ const board = (function gameBoard(){
         return false;
     }
 
-    const getBoard = () => gameBoard;
-
-    return {getValue, setValue, clearBoard, isBoardFull, getBoard};
+    return {getValue, setValue, clearBoard, isBoardFull};
 })();
 
 const users = (function user(){
-    let u1 = "X";
-    let u2 = "O";
-
-    let activePlayer = u1;
+    let u1, u2, activePlayer;
 
     const switchActivePlayer = () => {
         activePlayer = (activePlayer == u1) ? u2 : u1;
     }
 
-    const getActivePlayer = () => {
-        return activePlayer;
-    }
+    const getActivePlayer = () => activePlayer;
 
-    const resetActivePlayer = () => {
+    const setPlayerName = (p1, p2) => {
+        if(p1 == '' || p2 == ''){
+            u1 = 'X';
+            u2 = 'O';
+        }
+        else if(p1 == p2){
+            u1 = p1;
+            u2 = p1 + " v2";
+        }
+        else {
+            u1 = p1;
+            u2 = p2;
+        }
         activePlayer = u1;
     }
 
-    const setPlayerName = (p1, p2) => {
-        u1 = p1;
-        u2 = p2;
-    }
+    const getPlayerName = (p) => (p == '1') ? u1 : u2;
 
-    const getPlayerName = (p) => {
-        if(p == '1')
-            return u1;
-        else if(p == '2')
-            return u2;
-    }
-
-    return {switchActivePlayer, getActivePlayer, resetActivePlayer, setPlayerName, getPlayerName};
+    return {switchActivePlayer, getActivePlayer, setPlayerName, getPlayerName};
 })();
 
 const game = (function gameController(){
     const checkWinner = () => {
         // Rows
-        if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(0,1)) && (board.getValue(0,1) == board.getValue(0,2)) ) {
+        if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(0,1)) && (board.getValue(0,1) == board.getValue(0,2)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
-        else if( (board.getValue(1,0) != '') && (board.getValue(1,0) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(1,2)) ) {
+        else if( (board.getValue(1,0) != '') && (board.getValue(1,0) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(1,2)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
-        else if( (board.getValue(2,0) != '') && (board.getValue(2,0) == board.getValue(2,1)) && (board.getValue(2,1) == board.getValue(2,2)) ) {
+        else if( (board.getValue(2,0) != '') && (board.getValue(2,0) == board.getValue(2,1)) && (board.getValue(2,1) == board.getValue(2,2)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
         // Columns
-        else if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(1,0)) && (board.getValue(1,0) == board.getValue(2,0)) ) {
+        else if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(1,0)) && (board.getValue(1,0) == board.getValue(2,0)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
-        else if( (board.getValue(0,1) != '') && (board.getValue(0,1) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,1)) ) {
+        else if( (board.getValue(0,1) != '') && (board.getValue(0,1) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,1)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
-        else if( (board.getValue(0,2) != '') && (board.getValue(0,2) == board.getValue(1,2)) && (board.getValue(1,2) == board.getValue(2,2)) ) {
+        else if( (board.getValue(0,2) != '') && (board.getValue(0,2) == board.getValue(1,2)) && (board.getValue(1,2) == board.getValue(2,2)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
         // Diagonals
-        else if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,2)) ) {
+        else if( (board.getValue(0,0) != '') && (board.getValue(0,0) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,2)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
-        else if( (board.getValue(0,2) != '') && (board.getValue(0,2) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,0)) ) {
+        else if( (board.getValue(0,2) != '') && (board.getValue(0,2) == board.getValue(1,1)) && (board.getValue(1,1) == board.getValue(2,0)) ) 
             return screen.handleWinner(users.getActivePlayer());
-        }
         // Tie
-        else if( board.isBoardFull() ){
+        else if( board.isBoardFull() )
             return screen.handleWinner('Tie');
-        }
         else
             return false;
     };
@@ -108,19 +94,26 @@ const game = (function gameController(){
     return {checkWinner};
 })();
 
-const cross = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="cross"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>`;
-const circle = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="circle"s><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
-
-
 const screen = (function screenController(){
     const boardBtn = document.querySelectorAll('.btn');
     const userTurnDiv = document.querySelector('#turn-text');
     const dialog = document.querySelector('dialog');
     const closeBtn = document.querySelector('#dialog-btn');
     const inputs = document.querySelectorAll('.input');
-    // const retryBtn = document.querySelector('.retry-btn');
 
-    const playRound = (e) => {
+    const cross = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="cross"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>`;
+    const circle = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="circle"s><path d="M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>`;
+
+    boardBtn.forEach(btns => {
+        btns.addEventListener('click', playRound);
+    });
+
+    closeBtn.addEventListener("click", () => {
+        users.setPlayerName(inputs[0].value, inputs[1].value)
+        setTurnDiv(`${users.getPlayerName('1')}'s Turn`);
+    });
+
+    function playRound(e) {
         let inputR = e.target.dataset.row;
         let inputC = e.target.dataset.col;
         let value = (users.getActivePlayer() == users.getPlayerName('1')) ? 'X' : 'O';
@@ -133,10 +126,6 @@ const screen = (function screenController(){
         }
     };
 
-    boardBtn.forEach(btns => {
-        btns.addEventListener('click', playRound);
-    });
-    
     const handleWinner = (winner) => {
         userTurnDiv.textContent = (winner == 'Tie') ? `It's a Tie` : `${winner} WON`;
         if(winner == users.getPlayerName('1'))
@@ -152,6 +141,7 @@ const screen = (function screenController(){
         retryBtn.addEventListener("click", () => {
             board.clearBoard();
             dialog.setAttribute('open', "");
+            setTurnDiv(`X's Turn`);
             document.body.classList.remove('winner', 'loser', 'tie');
             boardBtn.forEach(btns => {
                 btns.textContent = '';
@@ -171,12 +161,6 @@ const screen = (function screenController(){
     const setTurnDiv = (text) => {
         userTurnDiv.textContent = text;
     }
-
-    closeBtn.addEventListener("click", () => {
-        users.setPlayerName(inputs[0].value, inputs[1].value)
-        setTurnDiv(`${users.getPlayerName('2')}'s Turn`);
-    });
-
 
     return {handleWinner, setTurnDiv};
 })();

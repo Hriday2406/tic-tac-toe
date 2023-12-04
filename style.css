@@ -30,7 +30,7 @@ time, mark, audio, video {
 }
 .winner {
     --secondary-color: #ffff00;
-    --secondary-shadow: #ffff00f80;
+    --secondary-shadow: #ffff0080;
 }
 .loser {
     --secondary-color: #00ffff;
@@ -49,6 +49,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    box-shadow: inset 0px 0px 25px var(--secondary-color);
 }
 
 h1 {
@@ -69,7 +70,7 @@ svg:active {
     height: 100px;
 }
 
-/*  */
+/* HEADER */
 header {
     font-size: 5rem;
     text-align: center;
@@ -77,7 +78,7 @@ header {
 }
 
 
-/*  */
+/* MAIN */
 main {
     height: 100%;
     display: flex;
@@ -105,8 +106,9 @@ main h1 {
     color: var(--secondary-color);
     background-color: var(--primary-color);
     border: 2px solid var(--secondary-color);
-    box-shadow: 0px 0px 15px var(--secondary-shadow), inset 0px 0px 15px var(--secondary-shadow);
     border-radius: 30px;
+    cursor:pointer;
+    box-shadow: 0px 0px 15px var(--secondary-shadow), inset 0px 0px 15px var(--secondary-shadow);
     transition: all 0.05s ease-in-out;
 }
 .btn:active {
@@ -123,6 +125,7 @@ main h1 {
     padding: 0.5em;
     border: 2px solid var(--secondary-color);
     border-radius: 20px;
+    cursor:pointer;
     text-shadow: 0px 0px 10px var(--secondary-color);
     box-shadow: 0px 0px 15px var(--secondary-shadow), inset 0px 0px 15px var(--secondary-shadow);
 }
@@ -170,14 +173,14 @@ form {
     scale: 1.05;
 }
 
-/*  */
+/* FOOTER */
 footer {
     text-align: center;
     padding: 20px;
     text-shadow: 0px 0px 10px var(--secondary-color);
 }
 
-/*  */
+/* RESPONSIVE */
 @media only screen and (max-width:600px){
     body {
         height: 100dvh;
@@ -199,12 +202,12 @@ footer {
         border-radius: 20px;
     }
     dialog {
-        top: 250px;
+        top: 150px;
         font-size: 1.75rem;
         width: 300px;
     }
     form {
-        gap: 25px;
+        gap: 40px;
     }
     .input {
         line-height: 1em;
